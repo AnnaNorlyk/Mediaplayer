@@ -1,14 +1,33 @@
 package com.example.mediaplayer;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 
 public class HelloController {
     @FXML
-    private Label welcomeText;
+    private Button playButton;
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    private Button forwardSkipButton;
+    @FXML
+    private Button backSkipButton;
+    @FXML
+    private MenuButton menuButton;
+    @FXML
+    private Label nameTitleLabel;
+
+    @FXML
+    private Label sourceLabel;
+    @FXML
+    private Slider volumeSlider;
+    @FXML
+    private ListView listviewName;
+    @FXML
+    private ListView listViewSource;
+    @FXML
+    private MenuButton addToMenu;
+    @FXML
+    private void onMenuClick () {
+
     }
 }

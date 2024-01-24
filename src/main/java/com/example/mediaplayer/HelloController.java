@@ -1,5 +1,7 @@
 package com.example.mediaplayer;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
@@ -8,6 +10,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+
 
 import java.io.File;
 import java.net.URL;
@@ -90,6 +93,7 @@ public class HelloController implements Initializable {
             List<Media> playlist = new ArrayList<>();
 
             // Iterate over the result set and add Media objects to the playlist
+            /*
             while (resultSet.next()) {
                 String filePath = resultSet.getString("fldFilePath");
 
@@ -100,10 +104,14 @@ public class HelloController implements Initializable {
                 Media media = new Media(new File(absolutePath).toURI().toString());
 
                 playlist.add(media);
-            }
+            }*/
 
             // Create new MediaPlayer
-            mp = new MediaPlayer(playlist.get(0));
+            String path = new File("src/main/media/dontstopme.mp4").getAbsolutePath();
+            // Create new Media object (the actual media content)
+            me = new Media(new File(path).toURI().toString());
+
+            mp = new MediaPlayer(me);
             mediaV.setMediaPlayer(mp);
 
             // Set fitWidth and fitHeight to the AnchorPane's width and height
@@ -120,6 +128,23 @@ public class HelloController implements Initializable {
                 volumeLabel.setText(volumePercentValue + "%");
             });
 
+            // Gets the whole mediafolder, creates a list and puts them as ListView items
+            File folder = new File("./src/main/media");
+            File[] listOfFiles = folder.listFiles();
+
+            ObservableList<String> items = FXCollections.observableArrayList();
+
+
+            for (File file : listOfFiles) {
+                // Check if it's actually a file and then if it is a mp4
+                if (file.isFile() && file.getName().endsWith(".mp4"))
+                {
+                    items.add(file.getName().substring(0,file.getName().length()-4));
+                }
+            }
+            listviewName.setItems(items);
+
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -135,6 +160,15 @@ public class HelloController implements Initializable {
     public void handleNameClick() {
         String selectedName = listviewName.getSelectionModel().getSelectedItem().toString();
         nameTitleLabel.setText(selectedName);
+
+        handleStop();
+        // Create new MediaPlayer
+        String path = new File("src/main/media/" + selectedName + ".mp4").getAbsolutePath();
+        // Create new Media object (the actual media content)
+        me = new Media(new File(path).toURI().toString());
+        mp = new MediaPlayer(me);
+        mediaV.setMediaPlayer(mp);
+        handlePlay();
     }
     @FXML
     //Handles mouse click event on listview and displays name of source on Label

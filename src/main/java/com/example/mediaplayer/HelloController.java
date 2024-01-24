@@ -44,6 +44,8 @@ public class HelloController implements Initializable {
     private MenuButton addToMenu;
     @FXML
     private Label volumeLabel;
+    @FXML
+    private TextField searchbar;
 
     private MediaPlayer mp;
     private Media me;
@@ -104,13 +106,13 @@ public class HelloController implements Initializable {
             mp = new MediaPlayer(playlist.get(0));
             mediaV.setMediaPlayer(mp);
 
-// Set fitWidth and fitHeight to the AnchorPane's width and height
+            // Set fitWidth and fitHeight to the AnchorPane's width and height
             mediaV.fitWidthProperty().bind(((Pane) mediaV.getParent()).widthProperty());
             mediaV.fitHeightProperty().bind(((Pane) mediaV.getParent()).heightProperty());
 
             mp.setAutoPlay(false);
 
-// Set up volume slider and label
+            // Set up volume slider and label
             volumeSlider.setValue(mp.getVolume() * 100);
             volumeSlider.valueProperty().addListener(observable -> {
                 mp.setVolume(volumeSlider.getValue() / 100);
@@ -125,6 +127,27 @@ public class HelloController implements Initializable {
     }
     @FXML
     private void onMenuClick () {
+
+    }
+
+    @FXML
+    //Handles mouse click event on listview and displays of mp4 name on Label
+    public void handleNameClick() {
+        String selectedName = listviewName.getSelectionModel().getSelectedItem().toString();
+        nameTitleLabel.setText(selectedName);
+    }
+    @FXML
+    //Handles mouse click event on listview and displays name of source on Label
+    public void handleSourceClick() {
+        String selectedName = listviewName.getSelectionModel().getSelectedItem().toString();
+        sourceLabel.setText(selectedName);
+    }
+
+    @FXML
+    //Handles event on searchbar
+    public void handleSearchbar() {
+        String searchbarInput = searchbar.getText().toLowerCase();
+
 
     }
 

@@ -155,14 +155,13 @@ public class HelloController implements Initializable {
             PreparedStatement preparedStatement = connection.prepareCall(
                     "SELECT tblPlaylistContent.fldPlaylistOrder, tblMedia.fldFilePath FROM tblPlaylistContent JOIN tblMedia ON tblPlaylistContent.fldMediaId = tblMedia.fldMediaId WHERE tblPlaylistContent.fldPlaylistId = ? ORDER BY tblPlaylistContent.fldPlaylistOrder ");
 
-            // Set the parameter value
+            // Set parameter value
             preparedStatement.setInt(1, playlistNr);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             ObservableList<String> items = FXCollections.observableArrayList();
 
             while (resultSet.next()) {
-                // Assuming fldFilePath is the column name for file paths
                 String filePath = resultSet.getString("fldFilePath");
 
                 // Add filePath to the ObservableList

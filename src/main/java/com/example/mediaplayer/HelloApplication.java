@@ -17,17 +17,8 @@ public class HelloApplication extends Application {
     private Connection connection;
 
     public HelloApplication() throws SQLException {
-//        // creating connection String
-//        String url = "jdbc:sqlserver://localhost:1433;databaseName=dbMp4";
-//
-//        Properties properties = new Properties();
-//
-//        properties.setProperty("user", "sa");
-//        properties.setProperty("password", "1234");
-//        properties.setProperty("encrypt", "false");
-//
-//        // create connection
-//        connection = DriverManager.getConnection(url, properties);
+
+
     }
 
     //setting stage

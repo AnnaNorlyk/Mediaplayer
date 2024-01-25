@@ -55,6 +55,7 @@ public class HelloController implements Initializable {
     private static Connection connection;
     boolean isPlaying = false;
 
+
     /**
      * This method is invoked automatically in the beginning. Used for initializing, loading data etc.
      *
@@ -88,23 +89,6 @@ public class HelloController implements Initializable {
 
         try {
             ResultSet resultSet = preparedStatement.executeQuery();
-
-            // Create a list to hold Media objects
-            List<Media> playlist = new ArrayList<>();
-
-            // Iterate over the result set and add Media objects to the playlist
-            /*
-            while (resultSet.next()) {
-                String filePath = resultSet.getString("fldFilePath");
-
-                // Build the path to the location of the media file
-                String absolutePath = new File(filePath).getAbsolutePath();
-
-                // Create new Media object (the actual media content)
-                Media media = new Media(new File(absolutePath).toURI().toString());
-
-                playlist.add(media);
-            }*/
 
             // Create new MediaPlayer
             String path = new File("src/main/media/dontstopme.mp4").getAbsolutePath();
@@ -156,15 +140,55 @@ public class HelloController implements Initializable {
     }
 
     @FXML
+    private void selectPlaylistOne() {
+        selectPlaylist(1);
+    }
+
+    @FXML
+    private void selectPlaylistTwo() {
+        selectPlaylist(2);
+    }
+
+    @FXML
+    private void selectPlaylist(int playlistNr) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareCall(
+                    "SELECT tblPlaylistContent.fldPlaylistOrder, tblMedia.fldFilePath FROM tblPlaylistContent JOIN tblMedia ON tblPlaylistContent.fldMediaId = tblMedia.fldMediaId WHERE tblPlaylistContent.fldPlaylistId = ? ORDER BY tblPlaylistContent.fldPlaylistOrder ");
+
+            // Set the parameter value
+            preparedStatement.setInt(1, playlistNr);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            ObservableList<String> items = FXCollections.observableArrayList();
+
+            while (resultSet.next()) {
+                // Assuming fldFilePath is the column name for file paths
+                String filePath = resultSet.getString("fldFilePath");
+
+                // Add filePath to the ObservableList
+                items.add(filePath);
+            }
+
+            // Set the items to the ListView
+            listviewName.setItems(items);
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    @FXML
     //Handles mouse click event on listview and displays of mp4 name on Label
     public void handleNameClick() {
-        String selectedName = listviewName.getSelectionModel().getSelectedItem().toString();
+        String selectedName = listviewName.getSelectionModel().getSelectedItem().toString().trim();
         nameTitleLabel.setText(selectedName);
 
         handleStop();
         // Create new MediaPlayer
         String path = new File("src/main/media/" + selectedName + ".mp4").getAbsolutePath();
         // Create new Media object (the actual media content)
+        System.out.println(path);
         me = new Media(new File(path).toURI().toString());
         mp = new MediaPlayer(me);
         mediaV.setMediaPlayer(mp);
@@ -181,7 +205,6 @@ public class HelloController implements Initializable {
     //Handles event on searchbar
     public void handleSearchbar() {
         String searchbarInput = searchbar.getText().toLowerCase();
-
 
     }
 
@@ -207,25 +230,4 @@ public class HelloController implements Initializable {
         isPlaying = false;
     }
 
-    public static void printDbPlaylist() throws SQLException {
-        PreparedStatement preparedStatement = connection.prepareCall("SELECT * FROM tblPlaylistContent JOIN tblMedia ON tblPlaylistContent.fldMediaId = tblMedia.fldMediaId JOIN tblAuthor ON TblMedia.fldAuthorId = tblAuthor.fldAuthorId WHERE tblPlaylistContent.fldPlaylistId = 1 ORDER BY tblPlaylistContent.fldPlaylistOrder");
-
-        System.out.println("Playliste:");
-        try {
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            while (resultSet.next()) {
-                int column1Value = resultSet.getInt("fldPlaylistOrder");
-                String column2Value = resultSet.getString("fldTitle").trim();
-                String column3Value = resultSet.getString("fldAuthorName");
-
-                System.out.println("" + column1Value + ". " + column2Value + " by " + column3Value);
-            }
-            resultSet.close();
-            System.out.println("");
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

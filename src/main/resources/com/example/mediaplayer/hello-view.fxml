@@ -10,13 +10,8 @@
     <items>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" style="-fx-background-color: #ABBEAC;">
             <children>
-                <ListView fx:id="listviewName" layoutY="32.0" onMouseClicked="#handleNameClick" prefHeight="768.0" prefWidth="200.0" />
-                <ListView fx:id="listviewSource" layoutX="200.0" layoutY="32.0" prefHeight="768.0" prefWidth="181.0" />
-                <Label layoutX="74.0" layoutY="14.0" text="Name">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Label>
-                <Label layoutX="272.0" layoutY="14.0" text="Source">
+                <ListView fx:id="listviewName" layoutY="32.0" onMouseClicked="#handleNameClick" prefHeight="768.0" prefWidth="378.0" />
+                <Label layoutX="172.0" layoutY="5.0" text="Name">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font></Label>
@@ -29,12 +24,11 @@
                     </children>
                 </Pane>
                 <ProgressBar fx:id="progressbar" layoutX="82.0" layoutY="708.0" prefHeight="8.0" prefWidth="676.0" progress="0.0" />
-                <Label fx:id="nameTitleLabel" layoutX="392.0" layoutY="43.0" text="Name">
+                <Label fx:id="nameTitleLabel" alignment="CENTER" layoutX="87.0" layoutY="65.0" prefHeight="35.0" prefWidth="676.0" text="Name" textAlignment="CENTER">
                     <font>
                         <Font size="24.0" />
                     </font>
                 </Label>
-                <Label fx:id="sourceLabel" layoutX="406.0" layoutY="78.0" text="Source" />
                 <Slider fx:id="volumeSlider" layoutX="768.0" layoutY="705.0" prefHeight="14.0" prefWidth="112.0" />
                 <MenuButton fx:id="removeFromMenu" layoutX="689.0" layoutY="670.0" mnemonicParsing="false" text="Remove from">
                     <items>

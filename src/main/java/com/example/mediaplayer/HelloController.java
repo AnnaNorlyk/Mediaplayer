@@ -31,12 +31,6 @@ public class HelloController implements Initializable {
     @FXML
     private Button backSkipButton;
     @FXML
-    private TextField newPlaylistField;
-
-    @FXML
-    private Button playlistAdd;
-
-    @FXML
     private MenuButton menuDisplay;
 
     @FXML
@@ -225,7 +219,7 @@ public class HelloController implements Initializable {
         try {
             int rowsAffected = preparedStatement.executeUpdate();
 
-            if (rowsAffected > 0) { //slet det her når det virker
+            if (rowsAffected > 0) {
                 System.out.println("Video tilføjet");
             } else {
                 System.out.println("Der opstod en fejl");
@@ -299,19 +293,7 @@ public class HelloController implements Initializable {
         mediaV.setMediaPlayer(mp);
         handlePlay();
     }
-//    @FXML
-//    //Handles mouse click event on listview and displays name of source on Label
-//    public void handleSourceClick() {
-//        String selectedName = listviewName.getSelectionModel().getSelectedItem().toString();
-//        //sourceLabel.setText(selectedName);
-//    }
 
-    @FXML
-    //Handles event on searchbar
-    public void handleSearchbar() {
-        String searchbarInput = searchbar.getText().toLowerCase();
-
-    }
 
     @FXML
     private void handlePlay()

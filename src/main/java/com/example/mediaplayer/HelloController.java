@@ -1,5 +1,6 @@
 package com.example.mediaplayer;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.util.Duration;
 
 
 import java.io.File;
@@ -25,7 +27,6 @@ public class HelloController implements Initializable {
     private MediaView mediaV;
     @FXML
     private Button playButton;
-
     @FXML
     private Button forwardSkipButton;
     @FXML
@@ -106,6 +107,7 @@ public class HelloController implements Initializable {
         mediaV.fitHeightProperty().bind(((Pane) mediaV.getParent()).heightProperty());
 
         mp.setAutoPlay(false);
+
 
         // Set up volume slider and label
         volumeSlider.setValue(mp.getVolume() * 100);
@@ -339,5 +341,20 @@ public class HelloController implements Initializable {
         mp.stop();
         isPlaying = false;
     }
+    @FXML
+    private void forwardSkipButton() {
+        Duration currentTime = mp.getCurrentTime();
 
+        Duration skipAmount = Duration.seconds(5);
+
+        Duration newTime = currentTime.add(skipAmount);
+
+        mp.seek(newTime);
+    }
+    @FXML
+    private void backSkipButton() {
+        if (mp != null) {
+            mp.seek(Duration.ZERO);
+        }
+    }
 }

@@ -23,7 +23,6 @@
                         <MediaView fx:id="mediaV" fitHeight="200.0" fitWidth="200.0" />
                     </children>
                 </Pane>
-                <ProgressBar fx:id="progressbar" layoutX="82.0" layoutY="708.0" prefHeight="8.0" prefWidth="676.0" progress="0.0" />
                 <Label fx:id="nameTitleLabel" alignment="CENTER" layoutX="87.0" layoutY="65.0" prefHeight="35.0" prefWidth="676.0" text="Name" textAlignment="CENTER">
                     <font>
                         <Font size="24.0" />
@@ -53,12 +52,12 @@
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <Button fx:id="forwardSkipButton" layoutX="456.0" layoutY="650.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="43.0">
+                <Button fx:id="forwardSkipButton" layoutX="456.0" layoutY="650.0" mnemonicParsing="false" onMousePressed="#forwardSkipButton" prefHeight="41.0" prefWidth="43.0">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>
                 </Button>
-                <Button fx:id="backSkipButton" layoutX="349.0" layoutY="650.0" mnemonicParsing="false" prefHeight="41.0" prefWidth="43.0">
+                <Button fx:id="backSkipButton" layoutX="349.0" layoutY="650.0" mnemonicParsing="false" onMouseClicked="#backSkipButton" prefHeight="41.0" prefWidth="43.0">
                     <font>
                         <Font name="System Bold" size="12.0" />
                     </font>

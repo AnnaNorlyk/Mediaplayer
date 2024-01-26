@@ -82,7 +82,7 @@ public class HelloController implements Initializable {
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareCall(
-                    "SELECT tblPlaylistContent.fldPlaylistOrder, tblMedia.fldFilePath FROM tblPlaylistContent JOIN tblMedia ON tblPlaylistContent.fldMediaId = tblMedia.fldMediaId WHERE tblPlaylistContent.fldPlaylistId = 1 ORDER BY tblPlaylistContent.fldPlaylistOrder ");
+                    "SELECT tblPlaylistContent2.fldPlaylistOrder, tblMedia.fldFilePath FROM tblPlaylistContent2 JOIN tblMedia ON tblPlaylistContent2.fldMediaId = tblMedia.fldMediaId WHERE tblPlaylistContent2.fldPlaylistId = 1 ORDER BY tblPlaylistContent2.fldPlaylistOrder ");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -153,7 +153,7 @@ public class HelloController implements Initializable {
     private void selectPlaylist(int playlistNr) {
         try {
             PreparedStatement preparedStatement = connection.prepareCall(
-                    "SELECT tblPlaylistContent.fldPlaylistOrder, tblMedia.fldFilePath FROM tblPlaylistContent JOIN tblMedia ON tblPlaylistContent.fldMediaId = tblMedia.fldMediaId WHERE tblPlaylistContent.fldPlaylistId = ? ORDER BY tblPlaylistContent.fldPlaylistOrder ");
+                    "SELECT tblPlaylistContent2.fldPlaylistOrder, tblMedia.fldFilePath FROM tblPlaylistContent2 JOIN tblMedia ON tblPlaylistContent2.fldMediaId = tblMedia.fldMediaId WHERE tblPlaylistContent2.fldPlaylistId = ? ORDER BY tblPlaylistContent2.fldPlaylistOrder ");
 
             // Set parameter value
             preparedStatement.setInt(1, playlistNr);
@@ -173,6 +173,27 @@ public class HelloController implements Initializable {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    private void addToPlaylist() throws SQLException {
+        PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tblPlaylistContent2 (fldMediaId, fldPlaylistId, fldPlaylistOrder) VALUES (?,?,?)");
+        preparedStatement.setInt(1, 1);
+        preparedStatement.setInt(2, 1);
+        preparedStatement.setInt(3, 10);
+
+        try {
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            if (rowsAffected > 0) { //slet det her når det virker
+                System.out.println("Sang tilføjet");
+            } else {
+                System.out.println("Der opstod en fejl");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

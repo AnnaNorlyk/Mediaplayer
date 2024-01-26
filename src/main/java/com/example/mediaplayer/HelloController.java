@@ -31,18 +31,29 @@ public class HelloController implements Initializable {
     @FXML
     private Button backSkipButton;
     @FXML
-    private MenuButton menuButton;
+    private TextField newPlaylistField;
+
+    @FXML
+    private Button playlistAdd;
+
+    @FXML
+    private MenuButton menuDisplay;
+
+    @FXML
+    private MenuItem allFiles;
+
+    @FXML
+    private MenuItem playlistView;
+
     @FXML
     private Label nameTitleLabel;
 
-    @FXML
-    private Label sourceLabel;
     @FXML
     private Slider volumeSlider;
     @FXML
     private ListView listviewName;
     @FXML
-    private ListView listViewSource;
+    private ListView listviewPlaylists;
     @FXML
     private MenuButton addToMenu;
     @FXML

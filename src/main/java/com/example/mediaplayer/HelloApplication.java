@@ -17,8 +17,17 @@ public class HelloApplication extends Application {
     private Connection connection;
 
     public HelloApplication() throws SQLException {
+        // creating connection String
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=dbMp4";
 
+        Properties properties = new Properties();
 
+        properties.setProperty("user", "sa");
+        properties.setProperty("password", "1234");
+        properties.setProperty("encrypt", "false");
+
+        // create connection
+        connection = DriverManager.getConnection(url, properties);
     }
 
     //setting stage
@@ -27,7 +36,7 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
         Parent root = fxmlLoader.load();
 
-        Scene scene = new Scene(root, 1280, 800);
+        Scene scene = new Scene(root, 800, 1280);
         stage.setTitle("Mediaplayer");
         stage.setScene(scene);
         stage.show();

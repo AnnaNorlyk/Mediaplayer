@@ -133,6 +133,10 @@ public class HelloController implements Initializable {
         selectPlaylist(2);
     }
 
+    /**
+     * Gets the whole mediafolder, creates a list and puts them as ListView items
+     */
+
     @FXML
     private void listAllFiles() {
         // Gets the whole mediafolder, creates a list and puts them as ListView items
@@ -180,6 +184,9 @@ public class HelloController implements Initializable {
     }
 
 
+/**
+ * This method makes us able to search in the files for a specific media
+ */
 
     @FXML
     private void handleSearchbarKeyPressed()
@@ -209,6 +216,10 @@ public class HelloController implements Initializable {
         addToPlaylist(2);
     }
 
+    /**
+     * Adds record to playlist
+     */
+
     @FXML
     private void addToPlaylist(int playlistId) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tblPlaylistContent2 (fldMediaId, fldPlaylistId, fldPlaylistOrder) VALUES (?,?,?)");
@@ -229,6 +240,10 @@ public class HelloController implements Initializable {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Deletes media from playlist
+     */
 
     @FXML
     private void deleteFromPlaylist() {
@@ -257,6 +272,9 @@ public class HelloController implements Initializable {
         }
     }
 
+    /**
+     * Handles mouse click event on listview and displays of mp4 name on Label
+     */
 
     @FXML
     //Handles mouse click event on listview and displays of mp4 name on Label
@@ -294,6 +312,9 @@ public class HelloController implements Initializable {
         handlePlay();
     }
 
+    /**
+     * Makes the media play
+     */
 
     @FXML
     private void handlePlay()
@@ -309,7 +330,9 @@ public class HelloController implements Initializable {
         }
 
     }
-
+    /**
+     * Makes the media stop
+     */
     @FXML
     private void handleStop()
     {

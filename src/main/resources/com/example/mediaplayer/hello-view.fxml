@@ -38,13 +38,13 @@
                 <Slider fx:id="volumeSlider" layoutX="768.0" layoutY="705.0" prefHeight="14.0" prefWidth="112.0" />
                 <MenuButton fx:id="addToMenu" layoutX="689.0" layoutY="670.0" mnemonicParsing="false" text="Add to">
                     <items>
-                        <MenuItem mnemonicParsing="false" onAction="#addToPlaylist" text="Playlist 1" />
-                        <MenuItem mnemonicParsing="false" onAction="#addToPlaylist" text="Playlist 2" />
+                        <MenuItem mnemonicParsing="false" onAction="#addPlaylistOne" text="Playlist 1" />
+                        <MenuItem mnemonicParsing="false" onAction="#addPlaylistTwo" text="Playlist 2" />
                     </items>
                 </MenuButton>
                 <MenuButton fx:id="menuButton" layoutX="4.0" layoutY="2.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="71.0" text="Menu">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="All files" />
+                        <MenuItem mnemonicParsing="false" onAction="#listAllFiles" text="All files" />
                         <MenuItem mnemonicParsing="false" onAction="#selectPlaylistOne" text="Playlist 1" />
                         <MenuItem mnemonicParsing="false" onAction="#selectPlaylistTwo" text="Playlist 2" />
                     </items>

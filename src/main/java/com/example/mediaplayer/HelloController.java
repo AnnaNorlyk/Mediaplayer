@@ -54,7 +54,7 @@ public class HelloController implements Initializable {
     private Media me;
     private static Connection connection;
     boolean isPlaying = false;
-
+    int selectedFileId = 0;
 
     /**
      * This method is invoked automatically in the beginning. Used for initializing, loading data etc.
@@ -87,51 +87,30 @@ public class HelloController implements Initializable {
             throw new RuntimeException(e);
         }
 
-        try {
-            ResultSet resultSet = preparedStatement.executeQuery();
 
-            // Create new MediaPlayer
-            String path = new File("src/main/media/dontstopme.mp4").getAbsolutePath();
-            // Create new Media object (the actual media content)
-            me = new Media(new File(path).toURI().toString());
+        // Create new MediaPlayer
+        String path = new File("src/main/media/dontstopme.mp4").getAbsolutePath();
+        // Create new Media object (the actual media content)
+        me = new Media(new File(path).toURI().toString());
 
-            mp = new MediaPlayer(me);
-            mediaV.setMediaPlayer(mp);
+        mp = new MediaPlayer(me);
+        mediaV.setMediaPlayer(mp);
 
-            // Set fitWidth and fitHeight to the AnchorPane's width and height
-            mediaV.fitWidthProperty().bind(((Pane) mediaV.getParent()).widthProperty());
-            mediaV.fitHeightProperty().bind(((Pane) mediaV.getParent()).heightProperty());
+        // Set fitWidth and fitHeight to the AnchorPane's width and height
+        mediaV.fitWidthProperty().bind(((Pane) mediaV.getParent()).widthProperty());
+        mediaV.fitHeightProperty().bind(((Pane) mediaV.getParent()).heightProperty());
 
-            mp.setAutoPlay(false);
+        mp.setAutoPlay(false);
 
-            // Set up volume slider and label
-            volumeSlider.setValue(mp.getVolume() * 100);
-            volumeSlider.valueProperty().addListener(observable -> {
-                mp.setVolume(volumeSlider.getValue() / 100);
-                int volumePercentValue = (int) volumeSlider.getValue();
-                volumeLabel.setText(volumePercentValue + "%");
-            });
+        // Set up volume slider and label
+        volumeSlider.setValue(mp.getVolume() * 100);
+        volumeSlider.valueProperty().addListener(observable -> {
+            mp.setVolume(volumeSlider.getValue() / 100);
+            int volumePercentValue = (int) volumeSlider.getValue();
+            volumeLabel.setText(volumePercentValue + "%");
+        });
 
-            // Gets the whole mediafolder, creates a list and puts them as ListView items
-            File folder = new File("./src/main/media");
-            File[] listOfFiles = folder.listFiles();
-
-            ObservableList<String> items = FXCollections.observableArrayList();
-
-
-            for (File file : listOfFiles) {
-                // Check if it's actually a file and then if it is a mp4
-                if (file.isFile() && file.getName().endsWith(".mp4"))
-                {
-                    items.add(file.getName().substring(0,file.getName().length()-4));
-                }
-            }
-            listviewName.setItems(items);
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        listAllFiles();
 
     }
     @FXML
@@ -147,6 +126,25 @@ public class HelloController implements Initializable {
     @FXML
     private void selectPlaylistTwo() {
         selectPlaylist(2);
+    }
+
+    @FXML
+    private void listAllFiles() {
+        // Gets the whole mediafolder, creates a list and puts them as ListView items
+        File folder = new File("./src/main/media");
+        File[] listOfFiles = folder.listFiles();
+
+        ObservableList<String> items = FXCollections.observableArrayList();
+
+
+        for (File file : listOfFiles) {
+            // Check if it's actually a file and then if it is a mp4
+            if (file.isFile() && file.getName().endsWith(".mp4"))
+            {
+                items.add(file.getName().substring(0,file.getName().length()-4));
+            }
+        }
+        listviewName.setItems(items);
     }
 
     @FXML
@@ -177,17 +175,27 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    private void addToPlaylist() throws SQLException {
+    private void addPlaylistOne() throws SQLException {
+        addToPlaylist(1);
+    }
+
+    @FXML
+    private void addPlaylistTwo() throws SQLException {
+        addToPlaylist(2);
+    }
+
+    @FXML
+    private void addToPlaylist(int playlistId) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("INSERT INTO tblPlaylistContent2 (fldMediaId, fldPlaylistId, fldPlaylistOrder) VALUES (?,?,?)");
-        preparedStatement.setInt(1, 1);
-        preparedStatement.setInt(2, 1);
+        preparedStatement.setInt(1, selectedFileId);
+        preparedStatement.setInt(2, playlistId);
         preparedStatement.setInt(3, 10);
 
         try {
             int rowsAffected = preparedStatement.executeUpdate();
 
             if (rowsAffected > 0) { //slet det her når det virker
-                System.out.println("Sang tilføjet");
+                System.out.println("Video tilføjet");
             } else {
                 System.out.println("Der opstod en fejl");
             }
@@ -205,6 +213,25 @@ public class HelloController implements Initializable {
         nameTitleLabel.setText(selectedName);
 
         handleStop();
+
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                    "SELECT tblMedia.fldMediaId FROM tblMedia WHERE tblMedia.fldTitle = ?");
+            preparedStatement.setString(1, selectedName);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                int mediaId = resultSet.getInt("fldMediaId");
+                selectedFileId = resultSet.getInt("fldMediaId");
+                // Do something with the mediaId, such as setting it to a variable or using it further
+                System.out.println("Media ID: " + selectedFileId);
+            } else {
+                System.out.println("Ingen media ID fundet med fldTitel: " + selectedName);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         // Create new MediaPlayer
         String path = new File("src/main/media/" + selectedName + ".mp4").getAbsolutePath();
         // Create new Media object (the actual media content)

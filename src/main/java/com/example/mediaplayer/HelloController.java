@@ -237,16 +237,16 @@ public class HelloController implements Initializable {
     }
 
     @FXML
-    private void deleteRecord(int fldPlaylistContentId) {
+    private void deleteFromPlaylist() {
         try {
             // Create the SQL query to delete the record
-            String query = "DELETE FROM tblPlaylistContent2 WHERE fldPlaylistContentId = ?";
+            String query = "DELETE FROM tblPlaylistContent2 WHERE fldMediaId = ?";
 
             // Create PreparedStatement
             PreparedStatement preparedStatement = connection.prepareStatement(query);
 
             // Set the parameter value
-            preparedStatement.setInt(1, fldPlaylistContentId);
+            preparedStatement.setInt(1, selectedFileId);
 
             // Execute the delete query
             int rowsAffected = preparedStatement.executeUpdate();

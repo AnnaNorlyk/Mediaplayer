@@ -36,7 +36,7 @@ public class HelloApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("hello-view.fxml"));
         Parent root = fxmlLoader.load();
 
-        Scene scene = new Scene(root, 800, 1280);
+        Scene scene = new Scene(root, 1280, 800);
         stage.setTitle("Mediaplayer");
         stage.setScene(scene);
         stage.show();

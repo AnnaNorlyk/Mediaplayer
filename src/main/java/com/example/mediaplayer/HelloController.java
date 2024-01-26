@@ -185,6 +185,26 @@ public class HelloController implements Initializable {
         }
     }
 
+
+
+    @FXML
+    private void handleSearchbarKeyPressed()
+    {
+        File folder = new File("./src/main/media");
+        File[] listOfFiles = folder.listFiles();
+
+        ObservableList<String> items = FXCollections.observableArrayList();
+
+
+        for (File file : listOfFiles) {
+            // Check if it's actually a file and then if it is a mp4
+            if (file.isFile() && file.getName().toLowerCase().contains(searchbar.getText()) && file.getName().endsWith(".mp4"))
+            {
+                items.add(file.getName().substring(0,file.getName().length()-4));
+            }
+        }
+        listviewName.setItems(items);
+    }
     @FXML
     private void addPlaylistOne() throws SQLException {
         addToPlaylist(1);
@@ -213,6 +233,33 @@ public class HelloController implements Initializable {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void deleteRecord(int fldPlaylistContentId) {
+        try {
+            // Create the SQL query to delete the record
+            String query = "DELETE FROM tblPlaylistContent2 WHERE fldPlaylistContentId = ?";
+
+            // Create PreparedStatement
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+
+            // Set the parameter value
+            preparedStatement.setInt(1, fldPlaylistContentId);
+
+            // Execute the delete query
+            int rowsAffected = preparedStatement.executeUpdate();
+
+            // Check if the deletion was successful
+            if (rowsAffected > 0) {
+                System.out.println("Record deleted successfully.");
+            } else {
+                System.out.println("No records were deleted.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error occurred while deleting the record: " + e.getMessage());
         }
     }
 
@@ -252,12 +299,12 @@ public class HelloController implements Initializable {
         mediaV.setMediaPlayer(mp);
         handlePlay();
     }
-    @FXML
-    //Handles mouse click event on listview and displays name of source on Label
-    public void handleSourceClick() {
-        String selectedName = listviewName.getSelectionModel().getSelectedItem().toString();
-        sourceLabel.setText(selectedName);
-    }
+//    @FXML
+//    //Handles mouse click event on listview and displays name of source on Label
+//    public void handleSourceClick() {
+//        String selectedName = listviewName.getSelectionModel().getSelectedItem().toString();
+//        //sourceLabel.setText(selectedName);
+//    }
 
     @FXML
     //Handles event on searchbar
